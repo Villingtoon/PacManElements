@@ -10,6 +10,10 @@ namespace PacManElements
 {
     class Enemy : PictureBox
     {
+        public int Step { get; set; } = 2;
+        public int HorizontalVelocity { get; set; } = 0;
+        public int VerticalVelocity { get; set; } = 0;
+
         public Enemy()
         {
             InitializeEnemy();

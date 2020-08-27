@@ -62,9 +62,24 @@ namespace PacManElements
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
+            MoveHero();
+            MoveEnemies();
+            HeroBorderCollision();
+        }
+
+        private void MoveHero()
+        {
             hero.Left += hero.HorizontalVelocity;
             hero.Top += hero.VerticalVelocity;
-            HeroBorderCollision();
+        }
+
+        private void MoveEnemies()
+        {
+            foreach(var enemy in enemies)
+            {
+                enemy.Left += enemy.HorizontalVelocity;
+                enemy.Top += enemy.VerticalVelocity;
+            }
         }
 
         private void Game_KeyDown(object sender, KeyEventArgs e)
