@@ -12,9 +12,13 @@ namespace PacManElements
 {
     public partial class Game : Form
     {
+        private int initialEnemyCount = 4;
+
+        private Random rand = new Random();
         private Level level = new Level();
         private Hero hero = new Hero();
         private Timer mainTimer = null;
+        private List<Enemy> enemies = new List<Enemy>();
 
         public Game()
         {
@@ -27,14 +31,25 @@ namespace PacManElements
         {
             //adjust game form size
             this.Size = new Size(500, 500);
-            //adding level to the game
-            this.Controls.Add(level);
-            //adding hero to the game
-            this.Controls.Add(hero);
-            hero.BringToFront();
+            AddLevel();
+            AddHero();
+            AddEnemies();
             //add key down event handler
             this.KeyDown += Game_KeyDown;
 
+        }
+
+        private void AddLevel()
+        {
+            //adding level to the game
+            this.Controls.Add(level);
+        }
+
+        private void AddHero()
+        {
+            //adding hero to the game
+            this.Controls.Add(hero);
+            hero.BringToFront();
         }
 
         private void InitializeMainTimer()
@@ -96,6 +111,19 @@ namespace PacManElements
             if (hero.Top + hero.Height < level.Top)
             {
                 hero.Top = level.Top + level.Height;
+            }
+        }
+
+        private void AddEnemies()
+        {
+            Enemy enemy;
+            for(int i = 0; i < initialEnemyCount; i++)
+            {
+                enemy = new Enemy();
+                enemy.Location = new Point(rand.Next(100, 400), rand.Next(100, 400));
+                enemies.Add(enemy);
+                this.Controls.Add(enemy);
+                enemy.BringToFront();
             }
         }
     }
