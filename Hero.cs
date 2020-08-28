@@ -38,12 +38,19 @@ namespace PacManElements
 
         private void Animate()
         {
-            this.Image = (Image)Properties.Resources.ResourceManager.GetObject("pacman_right_1");
+            string imageName = "pacman_" + this.Direction + "_" + frameCounter.ToString();
+            this.Image = (Image)Properties.Resources.ResourceManager.GetObject(imageName);
+            this.SizeMode = PictureBoxSizeMode.StretchImage;
+            frameCounter++;
+            if(frameCounter > 4)
+            {
+                frameCounter = 1;
+            }
         }
 
         private void InitializeHero()
         {
-            this.BackColor = Color.Yellow;
+            this.BackColor = Color.Transparent;
             this.Size = new Size(35, 35);
             this.Location = new Point(200, 200);
             this.Name = "PacMan";

@@ -50,6 +50,7 @@ namespace PacManElements
             //adding hero to the game
             this.Controls.Add(hero);
             hero.BringToFront();
+            hero.Parent = level;
         }
 
         private void InitializeMainTimer()
@@ -91,18 +92,22 @@ namespace PacManElements
                 case Keys.W:
                     hero.HorizontalVelocity = 0;
                     hero.VerticalVelocity = -hero.Step;
+                    hero.Direction = "up";
                     break;
                 case Keys.S:
                     hero.HorizontalVelocity = 0;
                     hero.VerticalVelocity = hero.Step;
+                    hero.Direction = "down";
                     break;
                 case Keys.A:
                     hero.HorizontalVelocity = -hero.Step;
                     hero.VerticalVelocity = 0;
+                    hero.Direction = "left";
                     break;
                 case Keys.D:
                     hero.HorizontalVelocity = hero.Step;
                     hero.VerticalVelocity = 0;
+                    hero.Direction = "right";
                     break;
                 case Keys.F:
                     hero.HorizontalVelocity = 0;
@@ -180,7 +185,7 @@ namespace PacManElements
                 enemy.SetRandomDirection(rand.Next(1, 5));
                 enemies.Add(enemy);
                 this.Controls.Add(enemy);
-                
+                enemy.Parent = level;
                 enemy.BringToFront();
             }
         }
@@ -196,6 +201,7 @@ namespace PacManElements
         private void GameOver()
         {
             mainTimer.Stop();
+            
             labelGameOver.Parent = level;
             labelGameOver.BackColor = Color.Transparent;
             labelGameOver.Visible = true;
