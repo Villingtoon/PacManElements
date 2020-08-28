@@ -10,7 +10,7 @@ namespace PacManElements
 {
     class Hero : PictureBox
     {
-        public int Step { get; set; } = 2;
+        public int Step { get; set; } = 4;
         public int HorizontalVelocity { get; set; } = 0;
         public int VerticalVelocity { get; set; } = 0;
 
@@ -22,7 +22,7 @@ namespace PacManElements
         private void InitializeHero()
         {
             this.BackColor = Color.Yellow;
-            this.Size = new Size(40, 40);
+            this.Size = new Size(35, 35);
             this.Location = new Point(200, 200);
             this.Name = "PacMan";
         }

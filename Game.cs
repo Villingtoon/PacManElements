@@ -65,6 +65,7 @@ namespace PacManElements
             MoveHero();
             MoveEnemies();
             HeroBorderCollision();
+            EnemyBorderCollision();
         }
 
         private void MoveHero()
@@ -107,6 +108,7 @@ namespace PacManElements
                     hero.VerticalVelocity = 0;
                     break;
             }
+            SetRandomEnemyDirection();
         }
 
         private void HeroBorderCollision()
@@ -129,6 +131,33 @@ namespace PacManElements
             }
         }
 
+        private void EnemyBorderCollision()
+        {
+            foreach (var enemy in enemies)
+            {
+                if (enemy.Top < level.Top) //From "up" to "down"
+                {
+                    enemy.HorizontalVelocity = 0;
+                    enemy.VerticalVelocity = +enemy.Step;
+                }
+                if (enemy.Top > level.Height - enemy.Width) //From "down" to "up"
+                {
+                    enemy.HorizontalVelocity = 0;
+                    enemy.VerticalVelocity = -enemy.Step;
+                }
+                if (enemy.Left < level.Left) //From "left" to "right"
+                {
+                    enemy.HorizontalVelocity = +enemy.Step;
+                    enemy.VerticalVelocity = 0;
+                }
+                if (enemy.Left > level.Width - enemy.Width) //From "right" to "left"
+                {
+                    enemy.HorizontalVelocity = -enemy.Step;
+                    enemy.VerticalVelocity = 0;
+                }
+            }
+        }
+
         private void AddEnemies()
         {
             Enemy enemy;
@@ -136,9 +165,19 @@ namespace PacManElements
             {
                 enemy = new Enemy();
                 enemy.Location = new Point(rand.Next(100, 400), rand.Next(100, 400));
+                enemy.SetRandomDirection(rand.Next(1, 5));
                 enemies.Add(enemy);
                 this.Controls.Add(enemy);
+                
                 enemy.BringToFront();
+            }
+        }
+
+        private void SetRandomEnemyDirection()
+        {
+            foreach(var enemy in enemies)
+            {
+                enemy.SetRandomDirection(rand.Next(1, 5));
             }
         }
     }
