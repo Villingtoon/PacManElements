@@ -12,7 +12,7 @@ namespace PacManElements
 {
     public partial class Game : Form
     {
-        private int initialEnemyCount = 4;
+        private int initialEnemyCount = 10;
 
         private Random rand = new Random();
         private Level level = new Level();
@@ -66,6 +66,7 @@ namespace PacManElements
             MoveEnemies();
             HeroBorderCollision();
             EnemyBorderCollision();
+            HeroEnemyColission();
         }
 
         private void MoveHero()
@@ -158,6 +159,17 @@ namespace PacManElements
             }
         }
 
+        private void HeroEnemyColission()
+        {
+            foreach (var enemy in enemies)
+            {
+                if (enemy.Bounds.IntersectsWith(hero.Bounds))
+                {
+                    GameOver();
+                }
+            }
+        }
+
         private void AddEnemies()
         {
             Enemy enemy;
@@ -179,6 +191,15 @@ namespace PacManElements
             {
                 enemy.SetRandomDirection(rand.Next(1, 5));
             }
+        }
+
+        private void GameOver()
+        {
+            mainTimer.Stop();
+            labelGameOver.Parent = level;
+            labelGameOver.BackColor = Color.Transparent;
+            labelGameOver.Visible = true;
+            labelGameOver.BringToFront();
         }
     }
 }

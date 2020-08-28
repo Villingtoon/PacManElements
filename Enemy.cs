@@ -55,10 +55,5 @@ namespace PacManElements
                     break;
             }
         }
-
-        private void GameOver()
-        {
-
-        }
     }
 }
