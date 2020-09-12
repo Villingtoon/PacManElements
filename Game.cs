@@ -143,23 +143,19 @@ namespace PacManElements
             {
                 if (enemy.Top < level.Top) //From "up" to "down"
                 {
-                    enemy.HorizontalVelocity = 0;
-                    enemy.VerticalVelocity = +enemy.Step;
+                    enemy.SetRandomDirection(2);
                 }
                 if (enemy.Top > level.Height - enemy.Width) //From "down" to "up"
                 {
-                    enemy.HorizontalVelocity = 0;
-                    enemy.VerticalVelocity = -enemy.Step;
+                    enemy.SetRandomDirection(4);
                 }
                 if (enemy.Left < level.Left) //From "left" to "right"
                 {
-                    enemy.HorizontalVelocity = +enemy.Step;
-                    enemy.VerticalVelocity = 0;
+                    enemy.SetRandomDirection(1);
                 }
                 if (enemy.Left > level.Width - enemy.Width) //From "right" to "left"
                 {
-                    enemy.HorizontalVelocity = -enemy.Step;
-                    enemy.VerticalVelocity = 0;
+                    enemy.SetRandomDirection(3);
                 }
             }
         }
