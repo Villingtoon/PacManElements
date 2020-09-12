@@ -12,19 +12,22 @@ namespace PacManElements
 {
     public partial class Game : Form
     {
-        private int initialEnemyCount = 10;
+        private int initialEnemyCount = 1;
 
         private Random rand = new Random();
         private Level level = new Level();
         private Hero hero = new Hero();
+        private Food food = new Food();
         private Timer mainTimer = null;
         private List<Enemy> enemies = new List<Enemy>();
+        private Timer enemySpawnTimer = null;
 
         public Game()
         {
             InitializeComponent();
             InitializeGame();
             InitializeMainTimer();
+            InitializeEnemySpawnTimer();
         }
 
         private void InitializeGame()
@@ -33,10 +36,19 @@ namespace PacManElements
             this.Size = new Size(500, 500);
             AddLevel();
             AddHero();
-            AddEnemies();
+            AddEnemies(3);
+            AddFood();
             //add key down event handler
             this.KeyDown += Game_KeyDown;
 
+        }
+
+        private void AddFood()
+        {
+            this.Controls.Add(food);
+            food.Location = new Point(rand.Next(100, 200), rand.Next(100, 200));
+            food.Parent = level;
+            food.BringToFront();
         }
 
         private void AddLevel()
@@ -60,12 +72,25 @@ namespace PacManElements
             mainTimer.Interval = 20;
             mainTimer.Start();
         }
+        private void InitializeEnemySpawnTimer()
+        {
+            enemySpawnTimer = new Timer();
+            enemySpawnTimer.Tick += enemySpawnTimer_Tick;
+            enemySpawnTimer.Interval = 5000;
+            enemySpawnTimer.Start();
+        }
+
+        private void enemySpawnTimer_Tick(object sender, EventArgs e)
+        {
+            AddEnemies(1);
+        }
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
             MoveHero();
             MoveEnemies();
             HeroBorderCollision();
+            HeroFoodColission();
             EnemyBorderCollision();
             HeroEnemyColission();
         }
@@ -171,10 +196,20 @@ namespace PacManElements
             }
         }
 
-        private void AddEnemies()
+        private void HeroFoodColission()
+        {
+            if (food.Bounds.IntersectsWith(hero.Bounds))
+            {
+                food.Location = new Point(rand.Next(100, 200), rand.Next(100, 200));
+                food.SetType(rand.Next(1, 5));
+                hero.Step++;
+            }
+        }
+
+        private void AddEnemies(int enemyCount)
         {
             Enemy enemy;
-            for(int i = 0; i < initialEnemyCount; i++)
+            for(int i = 0; i < enemyCount; i++)
             {
                 enemy = new Enemy();
                 enemy.Location = new Point(rand.Next(100, 400), rand.Next(100, 400));
